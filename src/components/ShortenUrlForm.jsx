@@ -10,6 +10,7 @@ const ShortenUrlForm = ({ onUrlCreated }) => {
     e.preventDefault();
     if (!longUrl) return;
     const token = localStorage.getItem("token");
+    console.log("ShortenUrlForm token", token);
     const data = await shortenUrl(longUrl, token);
     onUrlCreated(data);
     setLongUrl("");

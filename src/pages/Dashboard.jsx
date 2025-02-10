@@ -3,16 +3,47 @@ import { AuthContext } from "../context/AuthContext";
 import { fetchUrls } from "../utils/api";
 import ShortenUrlForm from "../components/ShortenUrlForm";
 import UrlList from "../components/UrlList";
-import { useNavigate } from "react-router-dom";
+import { replace, useLocation, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+
+  const TokenHandler = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      const params = new URLSearchParams(location.search);
+      const token = params.get("token");
+  
+      if (token) {
+        localStorage.setItem("token", token);
+        params.delete("token");
+  
+        // Construct the new URL without the token
+        const newUrl = `${location.pathname}?${params.toString()}`;
+        navigate(newUrl, { replace: true });
+      }
+    }, [location, navigate]);
+  
+    return null; // This component doesn't render anything
+  }
+
+  TokenHandler()
+
   const { user } = useContext(AuthContext);
   const [urls, setUrls] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(()=>{
+    if (!localStorage.getItem("token")){
+      navigate('/', {replace:true});
+    }
+  }, [])
+
   useEffect(() => {
     const loadUrls = async () => {
       const token = localStorage.getItem("token");
+      console.log("Dashboard token", token);
       const data = await fetchUrls(token);
       setUrls(data);
     };
