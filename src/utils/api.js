@@ -33,7 +33,7 @@ export const shortenUrl = async (longUrl, token) => {
 
   try {
     const response = await api.post(
-      "/api/shorten",
+      "/api/urls",
       { longUrl },
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -58,9 +58,10 @@ export const fetchUrls = async (token) => {
   }
 
   try {
-    const response = await api.get("/api/user/urls", {
+    const response = await api.get("/api/urls/list", {
       headers: { Authorization: `Bearer ${token}` },
     });
+    console.log("urls fetch:", response.data)
     return response.data;
   } catch (error) {
     console.error("Error fetching URLs:", error);

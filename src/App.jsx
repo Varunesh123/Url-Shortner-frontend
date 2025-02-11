@@ -11,12 +11,14 @@ const App = () => {
     <Router>
       <AuthProvider>
         <Navbar />
+        <div className="container mx-auto p-4 min-h-screen flex flex-col items-center justify-center">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/auth/google/callback" element={<GoogleCallback />} /> 
         </Routes>
+        </div>
       </AuthProvider>
     </Router>
   );
